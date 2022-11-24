@@ -29,8 +29,8 @@ COROUTINE_DEFINE(job)
 int main(void)
 {
     int crfd, tfd[10];
-
-    crfd = coroutine_create(CR_DEFAULT);
+    /*----------My way------------*/
+    crfd = coroutine_create(CR_MINECODE);
     if (crfd < 0)
         return crfd;
 
