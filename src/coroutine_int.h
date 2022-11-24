@@ -52,6 +52,18 @@ struct task_struct *rq_dequeue(struct rq *rq);
 
 /* main data structure */
 
+/*----------MINE-----------*/
+
+struct MINE_rq {
+    unsigned int in; /* dequeue at out, enqueue  at in*/
+    unsigned int mask; /* the size is power of two, so mask will be size - 1 */
+    struct task_struct *r[RINGBUFFER_SIZE];
+};
+void MINE_rq_init(struct MINE_rq *rq);
+int MINE_add(struct MINE_rq *rq, struct task_struct *task);
+struct task_struct *MINE_dec(struct MINE_rq *rq);
+
+/*------------------------*/
 #define MAX_CR_TABLE_SIZE 10
 
 struct cr {
@@ -63,6 +75,10 @@ struct cr {
     /* scheduler - chose by the flags */
     struct rq rq; /* FIFO */
     struct rb_root root; /* Default */
+
+    /*---------MINE----------*/
+    struct MINE_rq mrq;//first in last out
+    /*-----------------------*/
 
     /* sched operations */
     int (*schedule)(struct cr *cr, job_t func, void *args);
